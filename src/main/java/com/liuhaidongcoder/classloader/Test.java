@@ -1,6 +1,5 @@
 package com.liuhaidongcoder.classloader;
 
-import com.bj58.norman.App;
 
 /**
  * @author Liu Haidong
