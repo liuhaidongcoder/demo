@@ -11,5 +11,6 @@ public class Test implements  Cloneable {
     public static void main(String[] args) throws CloneNotSupportedException, NoSuchAlgorithmException {
         MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
         System.out.printf("%X",new String(messageDigest.digest("hello".getBytes())));
+
     }
 }
