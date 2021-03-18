@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<clients xmlns="http://www.58.com/eic/olap"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://www.58.com/eic/olap configuration.xsd ">
+  <client id="xxx">
+    <!--Zero or more repetitions:-->
+    <app id="xxx">
+      <service>
+        <serviceName>string</serviceName>
+        <serviceStorageType>TIDB</serviceStorageType>
+        <!--Optional:-->
+        <desc>string</desc>
+        <property>
+          <name>string</name>
+          <value>string</value>
+          <!--Optional:-->
+          <desc>string</desc>
+        </property>
+      </service>
+      <!--Zero or more repetitions:-->
+      <property>
+        <name>string</name>
+        <value>string</value>
+        <!--Optional:-->
+        <desc>string</desc>
+      </property>
+    </app>
+    <app id="xxx">
+      <service>
+        <serviceName>string</serviceName>
+        <serviceStorageType>TIDB</serviceStorageType>
+        <!--Optional:-->
+        <desc>string</desc>
+        <property>
+          <name>string</name>
+          <value>string</value>
+          <!--Optional:-->
+          <desc>string</desc>
+        </property>
+      </service>
+      <!--Zero or more repetitions:-->
+      <property>
+        <name>string</name>
+        <value>string</value>
+        <!--Optional:-->
+        <desc>string</desc>
+      </property>
+    </app>
+  </client>
+</clients>

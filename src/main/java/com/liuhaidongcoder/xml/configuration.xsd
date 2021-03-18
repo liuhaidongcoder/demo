@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:tns="http://www.58.com/eic/olap"
+        targetNamespace="http://www.58.com/eic/olap"
+        elementFormDefault="qualified">
+
+    <simpleType name="storageTypeEnum">
+        <restriction base="string">
+            <enumeration value="REDIS"></enumeration>
+            <enumeration value="WTABLE"></enumeration>
+            <enumeration value="HBASE"></enumeration>
+            <enumeration value="MYSQL"></enumeration>
+            <enumeration value="TIDB"></enumeration>
+            <enumeration value="DORIS"></enumeration>
+            <enumeration value="CLICKHOUSE"></enumeration>
+        </restriction>
+    </simpleType>
+
+    <complexType name="propertyMeta">
+        <sequence>
+            <element name="name" type="string" minOccurs="1" maxOccurs="1"></element>
+            <element name="value" type="string" minOccurs="1" maxOccurs="1"></element>
+            <element name="desc" type="string" minOccurs="0" maxOccurs="1"></element>
+        </sequence>
+    </complexType>
+
+    <!-- service类型 -->
+    <complexType name="serviceMeta">
+        <sequence>
+            <element name="serviceName" type="string" minOccurs="1" maxOccurs="1"></element>
+            <element name="serviceStorageType" type="tns:storageTypeEnum" minOccurs="1" maxOccurs="1"></element>
+            <element name="desc" type="string" minOccurs="0" maxOccurs="1"></element>
+            <element name="property" type="tns:propertyMeta"></element>
+        </sequence>
+    </complexType>
+
+    <!-- app类型 -->
+    <complexType name="appMeta">
+        <sequence>
+            <element name="service" type="tns:serviceMeta" minOccurs="1" maxOccurs="1"></element>
+            <element name="property" type="tns:propertyMeta" minOccurs="0" maxOccurs="unbounded"></element>
+        </sequence>
+        <attribute name="id" type="token" ></attribute>
+    </complexType>
+
+    <!-- client类型 -->
+    <complexType name="clientMeta">
+        <sequence>
+            <element name="app" minOccurs="0" maxOccurs="unbounded" type="tns:appMeta"/>
+        </sequence>
+        <attribute name="id" type="token" ></attribute>
+    </complexType>
+
+   <!-- clients类型 -->
+    <complexType name="clientsMeta">
+        <sequence>
+            <element name="client" minOccurs="0" maxOccurs="unbounded" type="tns:clientMeta"/>
+        </sequence>
+    </complexType>
+
+    <element name="clients" type="tns:clientsMeta"/>
+
+</schema>

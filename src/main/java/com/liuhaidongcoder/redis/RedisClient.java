@@ -4,6 +4,9 @@ import redis.clients.jedis.*;
 import redis.clients.jedis.params.SetParams;
 import redis.clients.jedis.util.JedisClusterCRC16;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,8 +24,17 @@ public class RedisClient {
             hostAndPorts.add(HostAndPort.parseString(host));
         });
         JedisCluster jedisCluster = new JedisCluster(hostAndPorts, new JedisPoolConfig());
+        Properties properties = new Properties();
+        try( FileInputStream fileInputStream = new FileInputStream("")){
+            properties.load(fileInputStream);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-       // test(jedisCluster);
+
+        // test(jedisCluster);
        // testString(jedisCluster);
        // testNumber(jedisCluster);
        // testList(jedisCluster);

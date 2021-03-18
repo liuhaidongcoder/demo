@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.liuhaidongcoder.mybatis.mapper.StudentMapper">
+    <cache type="com.liuhaidongcoder.mybatis.cache.MyCustomCache"/>
+
+    <resultMap id="student" type="com.liuhaidongcoder.mybatis.dao.Student">
+        <id column="id" property="id"/>
+        <result column="name" property="name"/>
+        <result column="age" property="age"/>
+        <result column="sex" property="sex"/>
+        <result column="professional" property="professional"
+                typeHandler="com.liuhaidongcoder.mybatis.typehandler.SelfEnumTypeHander"/>
+        <!--        <result column="gmt_modified" property="gmtModified"/>-->
+    </resultMap>
+
+    <insert id="insert" parameterType="com.liuhaidongcoder.mybatis.dao.Student" useGeneratedKeys="true"
+            keyProperty="id">
+        INSERT INTO student (name,age,sex,professional,gmt_modified)
+        VALUES (#{name},#{age},#{sex},#{professional,typeHandler=com.liuhaidongcoder.mybatis.typehandler.SelfEnumTypeHander},#{gmtModified})
+    </insert>
+    <sql id="select">
+        ${filed1},${filed2}
+    </sql>
+  <!--  <select id="get" parameterType="int" statementType="PREPARED" resultMap="student">
+        select
+        *
+        from student where id = #{id}
+    </select>-->
+
+    <select id="getByMap" parameterType="map" statementType="PREPARED" resultMap="student">
+        select *
+        from student
+        <trim prefix="WHERE" prefixOverrides="AND |OR ">
+            <if test="name !=null and id != null">
+                name = #{name}
+            </if>
+            <if test="id != null">
+                id in
+                <foreach item="item" index="index" collection="id" open="(" separator="," close=")">
+                      #{item}
+                </foreach>
+            </if>
+        </trim>
+    </select>
+
+    <select id="get" parameterType="int" statementType="PREPARED" resultMap="student">
+        select
+        *
+        from student
+        <where>
+            <if test="id !=null">
+                id = ${id}
+            </if>
+        </where>
+    </select>
+
+    <!--  <select id="getByMap" parameterType="map" statementType="PREPARED" resultMap="student">
+          select *
+          from student
+          <where>
+              <if test="name !=null and id != null">
+                  name = #{name}
+              </if>
+              <if test="id != null">
+                  AND id = #{id}
+              </if>
+          </where>
+
+      </select>-->
+    <!--  <select id="getByMap" parameterType="map" statementType="PREPARED" resultMap="student">
+          select *
+          from student
+          <choose>
+              <when test="name !=null and id != null">
+                  name = #{name}
+              </when>
+              <when test="id != null">
+                  id = #{id}
+              </when>
+          </choose>
+      </select>-->
+
+
+    <resultMap id="join" type="com.liuhaidongcoder.mybatis.dao.Student">
+        <id column="student_id" property="id"/>
+        <result column="student_name" property="name"/>
+        <result column="student_age" property="age"/>
+        <result column="studnet_sex" property="sex"/>
+        <result column="student_professinal" property="professional"
+                typeHandler="com.liuhaidongcoder.mybatis.typehandler.SelfEnumTypeHander"/>
+        <result column="student_gmt_modified" property="gmtModified"/>
+        <association property="pro" javaType="com.liuhaidongcoder.mybatis.dao.Professional">
+            <id column="professinal_id" property="id"/>
+            <result column="professinal_name" property="name"/>
+        </association>
+    </resultMap>
+
+    <select id="getJoin" parameterType="int" statementType="PREPARED" resultMap="join">
+        select
+           t1.id as student_id,
+           t1.name as student_name,
+           t1.age  as student_age,
+           t1.sex as  studnet_sex,
+           t1.professional as  student_professinal,
+           t1.gmt_modified as student_gmt_modified,
+           t2.id as professinal_id,
+           t2.name as professinal_name
+        from
+           student as t1 LEFT JOIN professional t2 on t1.professional=t2.id
+        where t1.id = #{id}
+    </select>
+</mapper>
